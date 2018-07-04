@@ -1,0 +1,9 @@
+{
+  "lastName": "Alvan",
+  "dateOfBirth": "1985-06-18",
+  "gender": "MALE",
+  "contact": {
+    "emailAddress": "zaky.alvan@tiket.com",
+    "phoneNumber": "081320144088"
+  }
+}
