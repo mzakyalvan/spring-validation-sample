@@ -37,7 +37,7 @@ public class RegistrationServiceTests {
     @Test
     @DirtiesContext
     public void givenValidPersonData_whenRegistering_thenMustReturnRegisteredPerson() {
-        Person incomplete = Person.builder()
+        Person complete = Person.builder()
                 .firstName("Zaky")
                 .lastName("Alvan")
                 .gender(Gender.MALE)
@@ -48,7 +48,7 @@ public class RegistrationServiceTests {
                         .build())
                 .build();
 
-        Person person = registrationService.registerPerson(incomplete);
+        Person person = registrationService.registerPerson(complete);
         assertThat(person, instanceOf(RegisteredPerson.class));
     }
 
@@ -64,6 +64,24 @@ public class RegistrationServiceTests {
                 .build();
 
         registrationService.registerPerson(incomplete);
+    }
+
+    @DirtiesContext
+    @Test(expected = ConstraintViolationException.class)
+    public void givenValidPersonData_whenRegisterTwice_thenMustRejectSecondAttempt() {
+        Person complete = Person.builder()
+                .firstName("Zaky")
+                .lastName("Alvan")
+                .gender(Gender.MALE)
+                .dateOfBirth(LocalDate.of(1985, Month.JUNE, 18))
+                .contact(Contact.builder()
+                        .emailAddress("zaky.alvan@tiket.com")
+                        .phoneNumber("081320144088")
+                        .build())
+                .build();
+
+        registrationService.registerPerson(complete);
+        registrationService.registerPerson(complete);
     }
 
     @Test(expected = ConstraintViolationException.class)
